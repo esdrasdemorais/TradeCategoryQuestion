@@ -1,0 +1,13 @@
+using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+
+namespace TradeCategoryQuestion.Data {
+    public class TradeDbContextOptions /*: DbContextOptions*/ {
+ 	private readonly string connectionString;
+
+	public TradeDbContextOptions(DbContextOptions<TradeContext> options) : base(options) {
+	    
+	}
+    }
+}

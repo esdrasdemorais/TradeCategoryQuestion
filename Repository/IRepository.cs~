@@ -1,0 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using TradeCategoryQuestion.Models;
+
+namespace TradeCategoryQuestion.Repositories {
+    public interface IRepository<T> {
+	public Boolean Create(T entity);
+	public T Read(Int64 id);
+	public IEnumerable<T> Read();
+	public Boolean Update(T entity);
+	public Boolean Delete(T entity);
+    }
+}
