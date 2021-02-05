@@ -26,7 +26,7 @@ namespace TradeCategoryQuestion.Services
 		    trade.Category = category;
 		    break;
 		}
-		if (trade.Value > 1000000) {
+		else if (trade.Value > 1000000) {
 		    switch (trade.ClientSector.ToLower()) {
 			case "public":
 			    if (category.Name == "MEDIUMRISK") {
@@ -43,7 +43,7 @@ namespace TradeCategoryQuestion.Services
 			default:
 			   continue;
 		    }
-		}
+		} else continue;
 	    }
 	}
 
@@ -54,7 +54,8 @@ namespace TradeCategoryQuestion.Services
 
 	    foreach (var trade in trades) {
 		await CategorizeTrade(trade);
-		response += "\n" + trade.Category.Name + "\n";
+		response += "\n" + (trade.Category != null ? 
+		    trade.Category.Name : "UNCATEGORIZATED") + "\n";
 	    }
 
    	    return response;
