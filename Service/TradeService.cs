@@ -20,6 +20,12 @@ namespace TradeCategoryQuestion.Services
 	public async Task CategorizeTrade(Trade trade) {
 	    var categories = categoryRepository.Read();
 	    foreach (var category in categories) {
+		if (trade.NextPaymentDate > DateTime.Now.AddDays(30) 
+		    && category.Name == "DEFAULTED" && trade.Value < 1000000
+		) {
+		    trade.Category = category;
+		    break;
+		}
 		if (trade.Value > 1000000) {
 		    switch (trade.ClientSector.ToLower()) {
 			case "public":
@@ -34,13 +40,9 @@ namespace TradeCategoryQuestion.Services
 			        break;
 			    }
 			break;
+			default:
+			   continue;
 		    }
-		}
-		if (trade.NextPaymentDate > DateTime.Now.AddDays(30) 
-		    && category.Name == "DEFAULTED"
-		) {
-		    trade.Category = category;
-		    break;
 		}
 	    }
 	}
@@ -52,7 +54,7 @@ namespace TradeCategoryQuestion.Services
 
 	    foreach (var trade in trades) {
 		await CategorizeTrade(trade);
-		response += trade.Category.Name + "\n";
+		response += "\n" + trade.Category.Name + "\n";
 	    }
 
    	    return response;

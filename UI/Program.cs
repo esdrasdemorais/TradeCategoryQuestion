@@ -118,7 +118,8 @@ namespace TradeCategoryQuestion.UI
         	    Service = Container.GetInstance<TradeService>();
 		    var inputs = await InputData();
 		    await SaveData(inputs);
-		    await Service.CategorizeTrades();
+		    var output = await Service.CategorizeTrades();
+		    Console.WriteLine(output);
     	        }
 	    }
 	}
