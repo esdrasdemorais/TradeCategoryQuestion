@@ -1,8 +1,0 @@
-using System;
-using System.Threading;
-
-namespace TradeCategoryQuestion.Repositories {
-    public interface ITradeRepository {
-	public Task<Boolean> PersistCategorizedTrades();
-    }
-}
