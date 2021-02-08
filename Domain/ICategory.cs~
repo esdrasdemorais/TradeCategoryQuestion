@@ -1,9 +1,0 @@
-using System;
-
-namespace TradeCategoryQuestion.Models {
-    public interface ICategory {
-	protected Int16 Period { get; set; }
-	protected Double GreaterThan { get; set; }
-	protected Sector Sector { get; set; }
-    }
-}

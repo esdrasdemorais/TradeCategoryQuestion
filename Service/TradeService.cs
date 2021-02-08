@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TradeCategoryQuestion.Models;
 using TradeCategoryQuestion.Repositories;
@@ -18,8 +20,8 @@ namespace TradeCategoryQuestion.Services
 	}
 
 	public async Task CategorizeTrade(Trade trade) {
-	    var categories = categoryRepository.Read();
-	    foreach (var category in categories) {
+	    var categories = (ICollection<Category>) categoryRepository.Read();
+	    /*foreach (var category in categories) {
 		if (trade.NextPaymentDate > DateTime.Now.AddDays(30) 
 		    && category.Name == "DEFAULTED" && trade.Value < 1000000
 		) {
@@ -43,8 +45,10 @@ namespace TradeCategoryQuestion.Services
 			default:
 			   continue;
 		    }
-		} else continue;
-	    }
+		} else continue;	
+	    }*/
+	    var categorizationCriteria = new TradeCategorizationCriteria(categories);
+	    trade.Category = (Category) categorizationCriteria.CategorizeTrade(trade);
 	}
 
 	public async Task<String> CategorizeTrades() {

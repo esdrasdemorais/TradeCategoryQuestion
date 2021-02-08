@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,13 +24,9 @@ namespace TradeCategoryQuestion.UI
 {
     public class Startup
     {
-	public void ConfigureServices(IServiceCollection services)
-            => services.AddDbContext<TradeContext>();
-
-    	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    	{
-	    
-    	}
+	public void ConfigureServices(IServiceCollection services) {
+            services.AddDbContext<TradeContext>();
+	}
     }
 
     class Program
@@ -40,15 +35,18 @@ namespace TradeCategoryQuestion.UI
         static private Container Container { get; set; }
 	static private TradeService Service { get; set; }
 
-	public static IHostBuilder CreateHostBuilder(string[] args)
-            => Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(
-                webBuilder => webBuilder.UseStartup<Startup>());
+	public static async Task<IHostBuilder> CreateWebHostBuilder(string[] args)
+        {   
+	    var hostBuilder = Host.CreateDefaultBuilder(args)
+            	.ConfigureWebHostDefaults(
+                    webBuilder => webBuilder.UseStartup<Startup>()
+	    	);
 
-	static async Task Main(string[] args)
-        {
-            Console.WriteLine("$$$$$$$$$$$$$$ TradeCategoryQuestion $$$$$$$$$$$$$");
+            return hostBuilder;
+	}
 
+	static Program()
+    	{
 	    Container = new Container();
 	    Container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
@@ -61,15 +59,26 @@ namespace TradeCategoryQuestion.UI
 
     	    var services = new ServiceCollection();
 
+	    services.AddDbContextPool<TradeContext>(options => {});
+
     	    var provider = services.AddSimpleInjector(Container)
         	.BuildServiceProvider(validateScopes: true);
 
 	    provider.UseSimpleInjector(Container);
 
     	    Container.Verify();
+	}
 
-       	    await CategorizeTrades();
-        }
+	static async Task Main(string[] args)
+        {
+	    //var webHostBuilder = await CreateWebHostBuilder(args);
+
+	    //webHostBuilder.Build().Run();
+	    
+  	    Console.WriteLine("$$$$$$$$$$$$$$ TradeCategoryQuestion $$$$$$$$$$$$$");
+
+	    await CategorizeTrades();
+ 	}
 
 	static async Task SetTrade(ICollection<Trade> trades) {
 	    Console.WriteLine("Input Trade Datas Separating per Space:");
@@ -107,7 +116,7 @@ namespace TradeCategoryQuestion.UI
 
 	static async Task SaveData(ICollection<Trade> trades) {
 	    foreach (var trade in trades) {
-		if (!Service.Create(trade)) throw new Exception("Erro To Persist! Try Again!");
+		if (!Service.Create(trade)) throw new Exception("Error To Persist! Try Again!");
 	    }
 	}
 
