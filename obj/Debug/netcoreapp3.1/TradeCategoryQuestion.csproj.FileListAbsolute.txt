@@ -1,5 +1,0 @@
-/mnt/esdras/Downloads/TradeCategoryQuestion/obj/Debug/netcoreapp3.1/TradeCategoryQuestion.csprojAssemblyReference.cache
-/mnt/esdras/Downloads/TradeCategoryQuestion/obj/Debug/netcoreapp3.1/TradeCategoryQuestion.AssemblyInfoInputs.cache
-/mnt/esdras/Downloads/TradeCategoryQuestion/obj/Debug/netcoreapp3.1/TradeCategoryQuestion.AssemblyInfo.cs
-/mnt/esdras/Downloads/TradeCategoryQuestion/obj/Debug/netcoreapp3.1/TradeCategoryQuestion.csproj.CoreCompileInputs.cache
-/mnt/esdras/Downloads/TradeCategoryQuestion/obj/Debug/netcoreapp3.1/TradeCategoryQuestion.MvcApplicationPartsAssemblyInfo.cache
